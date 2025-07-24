@@ -87,7 +87,7 @@ const PORT = process.env.PORT || 5000;
 
 // Route mặc định
 app.get("/", (req, res) => {
-  res.json({ message: "API is running v3!" });
+  res.json({ message: "API is running v4" });
 });
 
 
