@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 // import User from './userDetails.js'; 
 import jwt from 'jsonwebtoken';
 // import Taileu from './userDetails.js';
-import { Hoahoc, Dataemail, Toan, NguVan, Ngoaingu, Lichsu, Vatly, Sinhhoc, Dialy, Giaoduckinhtevaphapluat, Tinhoc, Congnghe, Feedback, User, Tailieu, Thongbao, Ip, Course, DanhMucCourse, VideosCourse, Category, Orders, PathCourse, Vocher } from './userDetails.js';
+import { Sendtest, Hoahoc, Dataemail, Toan, NguVan, Ngoaingu, Lichsu, Vatly, Sinhhoc, Dialy, Giaoduckinhtevaphapluat, Tinhoc, Congnghe, Feedback, User, Tailieu, Thongbao, Ip, Course, DanhMucCourse, VideosCourse, Category, Orders, PathCourse, Vocher } from './userDetails.js';
 const app = express();
 dotenv.config();
 import mongoSanitize from "express-mongo-sanitize";
@@ -14,6 +14,7 @@ import axios from 'axios'
 import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
 
+import nodemailer from 'nodemailer';
 
 // BANK
 import crypto from 'crypto';
@@ -26,10 +27,13 @@ import bodyParser from 'body-parser';
 
 
 const corsOptions = {
-origin: 'https://onthithpt2026.com', 
-   methods: 'GET,POST,PUT,DELETE',
-   allowedHeaders: ['Content-Type', 'Authorization'], 
-   optionsSuccessStatus: 204  
+  origin: 'https://onthithpt2026.com',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204
+
+
+  
 };
 
 app.use(cors(corsOptions));
@@ -2247,7 +2251,6 @@ app.post('/api/renderTraffic', async (req, res) => {
 
 
 
-import nodemailer from 'nodemailer';
 
 
 app.post('/api/vananh', async (req, res) => {
@@ -2292,7 +2295,7 @@ app.post('/api/send', async (req, res) => {
 
 
 app.post("/deleteMON", async (req, res) => {
-  const email = "anhits001@hotmail.com"
+  const email = "khoahoctokyo1@gmail.com"
   try {
     await Hoahoc.deleteOne({ email: email })
     await Toan.deleteOne({ email: email })
@@ -2302,10 +2305,10 @@ app.post("/deleteMON", async (req, res) => {
     await Toan.deleteOne({ email: email })
     await Dataemail.deleteOne({ email: email })
     await Hoahoc.deleteOne({ email: email })
-     await Dialy.deleteOne({ email: email })
-      await Lichsu.deleteOne({ email: email })
-       await Tinhoc.deleteOne({ email: email })
-        await Congnghe.deleteOne({ email: email })
+    await Dialy.deleteOne({ email: email })
+    await Lichsu.deleteOne({ email: email })
+    await Tinhoc.deleteOne({ email: email })
+    await Congnghe.deleteOne({ email: email })
     return res.json({ status: "Success" })
   } catch (error) {
     return res.json({ status: "error", message: error })
@@ -2314,9 +2317,12 @@ app.post("/deleteMON", async (req, res) => {
 
 
 
+
+import MailChaoMung from './Mail/MailChao.js'
+
 app.post("/api/TaiLieu2k8Auto", async (req, res) => {
   try {
-    const { 
+    const {
       email,
       name,
       toan,
@@ -2332,175 +2338,194 @@ app.post("/api/TaiLieu2k8Auto", async (req, res) => {
       congnghe
     } = req.body
 
-    
 
- 
+
+
 
 
     console.log("------------------------------------------")
     console.log("Các Dât Được Thêm Vào Là:")
     const checkEmail = await Dataemail.findOne({ email: email })
 
-      if (!checkEmail) {
+    if (!checkEmail) {
 
 
-        if (toan) {
+      if (toan) {
 
-          await Toan.create({
-            name: name,
-            email: email,
-            monhoc: "Toán",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Toán :", email)
-
-        }  
-        if (van) {
-
-          await NguVan.create({
-            name: name,
-            email: email,
-            monhoc: "Văn",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Văn :", email)
-
-        }
-
-        if (ngoaingu) {
-
-          await Ngoaingu.create({
-            name: name,
-            email: email,
-            monhoc: "Ngoại ngữ",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Ngoại Ngữ :", email)
-        }
-
-        if (lichsu) {
- 
-          await Lichsu.create({
-            name: name,
-            email: email,
-            monhoc: "Lịch sử",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Lịch Sử :", email)
-
-        }
-
-        if (vatly) {
-   
-          await Vatly.create({
-            name: name,
-            email: email,
-            monhoc: "Vật lý",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Vật Lý :", email)
-
-        }
-
-
-        if (sinhhoc) {
-          console.log("Sinh Học")
-          await Sinhhoc.create({
-            name: name,
-            email: email,
-            monhoc: "Sinh Học",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Sinh Học :", email)
-
-        }
-
-        if (dialy) {
-          console.log("Địa Lý")
-          await Dialy.create({
-            name: name,
-            email: email,
-            monhoc: "Địa Lý",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Địa Lý :", email)
-
-        }
-
-
-        if (giaoduckinhtevaphapluat) {
-    
-          await Giaoduckinhtevaphapluat.create({
-            name: name,
-            email: email,
-            monhoc: "Giáo dục kinh tế và pháp luật",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Giáo dục kinh tế và pháp luật :", email)
-
-        }
-
-        if (tinhoc) {
-          console.log("tin hoc")
-          await Tinhoc.create({
-            name: name,
-            email: email,
-            monhoc: "Tin học",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Tin Học :", email)
-
-        }
-
-        if (hoahoc) {
-        
-          await Hoahoc.create({
-            name:  name,
-            email:  email,
-            monhoc: "Hóa Học",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Hóa học :",email)
-
-        }
-
-
-        if (congnghe) {
-      
-          await Congnghe.create({
-            name: name,
-            email: email,
-            monhoc: "Công Nghệ",
-            click: 0,
-            bot: false,
-          })
-          console.log("Môn Công Nghệ :", email)
-
-        }
-        await Dataemail.create({
+        await Toan.create({
           name: name,
           email: email,
-          monhoc: null,
+          monhoc: "Toán",
           click: 0,
           bot: false,
         })
-        res.status(200).json({status: "success",  message: "Chúc bạn đăng kí thành công, thư sẽ sớm gửi tới bạn và muộn nhất là 24h sau" });
-
-
-      } else {
-           res.status(200).json({ message: "Email của bạn đã có trong hệ thống" });
+        console.log("Môn Toán :", email)
 
       }
+      if (van) {
+
+        await NguVan.create({
+          name: name,
+          email: email,
+          monhoc: "Văn",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Văn :", email)
+
+      }
+
+      if (ngoaingu) {
+
+        await Ngoaingu.create({
+          name: name,
+          email: email,
+          monhoc: "Ngoại ngữ",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Ngoại Ngữ :", email)
+      }
+
+      if (lichsu) {
+
+        await Lichsu.create({
+          name: name,
+          email: email,
+          monhoc: "Lịch sử",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Lịch Sử :", email)
+
+      }
+
+      if (vatly) {
+
+        await Vatly.create({
+          name: name,
+          email: email,
+          monhoc: "Vật lý",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Vật Lý :", email)
+
+      }
+
+
+      if (sinhhoc) {
+        console.log("Sinh Học")
+        await Sinhhoc.create({
+          name: name,
+          email: email,
+          monhoc: "Sinh Học",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Sinh Học :", email)
+
+      }
+
+      if (dialy) {
+        console.log("Địa Lý")
+        await Dialy.create({
+          name: name,
+          email: email,
+          monhoc: "Địa Lý",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Địa Lý :", email)
+
+      }
+
+
+      if (giaoduckinhtevaphapluat) {
+
+        await Giaoduckinhtevaphapluat.create({
+          name: name,
+          email: email,
+          monhoc: "Giáo dục kinh tế và pháp luật",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Giáo dục kinh tế và pháp luật :", email)
+
+      }
+
+      if (tinhoc) {
+        console.log("tin hoc")
+        await Tinhoc.create({
+          name: name,
+          email: email,
+          monhoc: "Tin học",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Tin Học :", email)
+
+      }
+
+      if (hoahoc) {
+
+        await Hoahoc.create({
+          name: name,
+          email: email,
+          monhoc: "Hóa Học",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Hóa học :", email)
+
+      }
+
+
+      if (congnghe) {
+
+        await Congnghe.create({
+          name: name,
+          email: email,
+          monhoc: "Công Nghệ",
+          click: 0,
+          bot: false,
+        })
+        console.log("Môn Công Nghệ :", email)
+
+      }
+      console.log(email)
+      const dataMail = { 
+        sendto: email,
+        name: name
+      }
+      const chaomung = await MailChaoMung(dataMail);
+
+      await Dataemail.create({
+        name: name,
+        email: email,
+        monhoc: null,
+        click: 0,
+        bot: false,
+      })
+
+      const dataEmail = await Ip.findOne({ id: 1 })
+      await Ip.updateOne(
+        { "id": 1 },
+        {
+          $set: {
+            TotalEmail: dataEmail.TotalEmail + 1,
+          }
+        }
+      )
+      
+      res.status(200).json({ status: "success", message: "Chúc bạn đăng kí thành công, thư sẽ sớm gửi tới bạn và muộn nhất là 24h sau" });
+
+
+    } else {
+      res.status(200).json({ message: "Email của bạn đã có trong hệ thống" });
+
+    }
+
 
 
 
@@ -2512,75 +2537,7 @@ app.post("/api/TaiLieu2k8Auto", async (req, res) => {
 })
 
 
-
-app.post("/api/sendemail", async (req, res) => {
-
-  const data = [
-    { name: "Abcgohan", email: "abcgohan123mam@gmail.com", monhoc: "Sinh Học", click: 0, bot: false },
-  ]
-
-  const title = "Abcgohan ơi, 5 Tài Liệu Bí Mật Môn Toán Của Bạn Đã Sẵn Sàng ⏱️ (Hạn: 48h)"
-  const mon = "Toán"
-  const loichao = "ĐẾN HẸN LẠI LÊN CHỊ GỬI CHO EM NHÉ !"
-  const dataKhoahoc = [
-    { title: "Khoá Luyện Thi THPTQG 2026 Tiếng Anh Cô Mai Phương", loiich1: "Giáo Viên Giàu Kinh Nghiệm 9.0 IELTS", loiich2: "Bài Giảng Đầy Nhiệt Huyết", loiich3: "Phương Pháp Dạy Độc Quyền", loiich4: "Hỗ Trợ Vĩnh Viễn Trọn Đời" },
-    { title: "Khoá Luyện Thi THPTQG 2026 Tiếng Anh Cô Phạm Liễu", loiich1: "Giáo Viên Giàu Kinh Nghiệm 9.0 IELTS", loiich2: "Bài Giảng Đầy Nhiệt Huyết", loiich3: "Phương Pháp Dạy Độc Quyền", loiich4: "Hỗ Trợ Vĩnh Viễn Trọn Đời" },
-    { title: "Khoá Luyện Thi THPTQG 2026 Tiếng Anh Cô Trang Anh", loiich1: "Giáo Viên Giàu Kinh Nghiệm 9.0 IELTS", loiich2: "Bài Giảng Đầy Nhiệt Huyết", loiich3: "Phương Pháp Dạy Độc Quyền", loiich4: "Hỗ Trợ Vĩnh Viễn Trọn Đời" },
-  ]
-  const thongtintailieu = {
-    dinhdang: "DPF (240 Trang)",
-    hantai: "48 Giờ"
-  }
-  const dataTailieu = [
-    { title: "200 Câu Hỏi Đúng Sai Chương Hàm Số" },
-    { title: "100 Câu Hỏi Đúng Sai Nguyên Phân" }
-  ]
-
-  for (const item of data) {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/sendmail",
-        {
-
-          sendto: item.email,
-          title: title
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          }
-        }
-      );
-
-
-      console.log(`Đã gửi thành công tới : ${item.email}`)
-      console.log("Hãy Đợi 10 Giây Để Có Thể Gửi Tiếp")
-      for (let i = 10; i > 0; i--) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
-        console.log(`Chờ ${i} giây...`);
-      }
-    } catch (error) {
-      console.log("Lỗi Từ Server:", error)
-      console.log(`Đã gửi thất bại tới : ${item.email}`)
-      console.log("Hãy Đợi 10 Giây Để Có Thể Gửi Tiếp")
-      for (let i = 10; i > 0; i--) {
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Chờ 1 giây
-        console.log(`Chờ ${i} giây...`);
-      }
-
-    }
-    console.log("-----------------------------------------------------")
-
-  }
-
-  console.log("Đã Gửi Hoàn Thành Tới Các Email")
-  console.log("Kết Thúc")
-  return
-
-
-
-})
+ 
 
 
 
@@ -2609,6 +2566,7 @@ app.post("/delete", async (req, res) => {
 
 
 
+
 app.post("/api/checkemailtailieu", async (req, res) => {
   const { email } = req.body
   const check = await Dataemail.findOne({ email: email })
@@ -2621,10 +2579,326 @@ app.post("/api/checkemailtailieu", async (req, res) => {
 
 
 
+
+
+import PostalSender from './Mail/Guitailieu.js'
+import Postal from '@atech/postal';
+app.post("/api/send-postal", async (req, res) => {
+  const {
+    Monhoc, // Tìm các học sinh trong môn học này 
+    Subject,  // Tiêu đề của email hiểu thị trong inbox
+    TitleTaiLieu,
+    download,
+  } = req.body
+  console.log("Bắt Đầu")
+
+ 
+
+
+     let data = []
+    //  data = await Sendtest.find()
+
+     
+
+    if(Monhoc === 'toan'){
+      data = await Toan.find()
+
+    }
+    // if(Monhoc === 'nguvan'){ 
+    //   data = await NguVan.find()
+
+    // }
+    // if(Monhoc === 'ngoaingu'){ 
+    //    data = await Ngoaingu.find()
+
+    // }
+    // if(Monhoc === 'dialy'){ 
+    //   data = await Dialy.find()
+    // }
+    // if(Monhoc === 'lichsu'){ 
+    //    data = await Lichsu.find()
+    // }
+    // if(Monhoc === 'vatly'){ 
+    //  data = await Vatly.find()
+    // }
+    // if(Monhoc === 'hoahoc'){ 
+    //   data = await Hoahoc.find()
+    // }
+    // if(Monhoc === 'sinhhoc'){ 
+    //    data = await Sinhhoc.find()
+    // }
+    // if(Monhoc === 'giaoduckinhtevaphapluat'){ 
+    //   data = await Giaoduckinhtevaphapluat.find()
+    // }
+    // if(Monhoc === 'tinhoc'){ 
+    //    data = await Tinhoc.find()
+    // }
+    // if(Monhoc === 'congnghe'){ 
+    //    data = await Congnghe.find()
+    // }
+    console.log(data)
+   
+
+    for (const item of data) {
+      let CacMonHocSinhCo = ``
+      const checkToan = await Toan.findOne({ email: item.email })
+      const checkNguvan = await Ngoaingu.findOne({ email: item.email })
+      const checkNgoaingu = await Ngoaingu.findOne({ email: item.email })
+      const checkLichsu = await Lichsu.findOne({ email: item.email })
+      const checkDialy = await Dialy.findOne({ email: item.email })
+      const checkGiaoduckinhte = await Giaoduckinhtevaphapluat.findOne({ email: item.email })
+      const checkVatly = await Vatly.findOne({ email: item.email })
+      const checkHoahoc = await Hoahoc.findOne({ email: item.email })
+      const checkSinhhoc = await Sinhhoc.findOne({ email: item.email })
+      const checkTinhoc = await Tinhoc.findOne({ email: item.email })
+      const checkCongnghe = await Congnghe.findOne({ email: item.email })
+      if (checkToan) {
+        console.log(`${item.email}: Có Toán`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">🧮</div>
+        <div class="course-title">Toán Học: Phát Triển Năng Lực Tư Duy</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Ôn tập chuyên sâu kiến thức và các dạng toán theo Chương trình GDPT 2018.</li>
+            <li>Rèn luyện tư duy logic, phân tích và giải quyết vấn đề thực tiễn.</li>
+            <li>Luyện tập các phương pháp giải bài linh hoạt, sáng tạo, ứng dụng cao.</li>
+            <li>Cập nhật cấu trúc đề thi THPTQG 2026 và các dạng câu hỏi vận dụng, vận dụng cao.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkNguvan) {
+         console.log(`${item.email}: Có Văn`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">✍️</div>
+        <div class="course-title">Ngữ Văn: Nâng Cao Năng Lực Đọc, Viết</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Phân tích, cảm thụ sâu sắc các tác phẩm văn học theo định hướng mới.</li>
+            <li>Rèn luyện kỹ năng đọc hiểu văn bản thông tin, văn bản văn học đa dạng.</li>
+            <li>Phát triển năng lực viết các dạng bài nghị luận (xã hội, văn học) và bài văn thuyết minh.</li>
+            <li>Củng cố năng lực tư duy phản biện, đánh giá và bày tỏ quan điểm cá nhân.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+
+      if (checkNgoaingu) {
+         console.log(`${item.email}: Có Ngoại Ngữ`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">🗣️</div>
+        <div class="course-title">Ngoại Ngữ (Tiếng Anh): Giao Tiếp & Vận Dụng</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Củng cố toàn diện ngữ pháp, từ vựng theo khung năng lực ngôn ngữ.</li>
+            <li>Phát triển năng lực giao tiếp (nghe, nói, đọc, viết) trong các ngữ cảnh khác nhau.</li>
+            <li>Luyện tập các dạng bài thi chuẩn quốc tế và bám sát đề thi THPTQG 2026 mới.</li>
+            <li>Tăng cường khả năng tư duy và sử dụng tiếng Anh một cách tự tin.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkLichsu) {
+         console.log(`${item.email}: Có Lịch sử`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">📜</div>
+        <div class="course-title">Lịch Sử: Hiểu Sâu, Kết Nối Hiện Tại</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Nghiên cứu các chuyên đề lịch sử Việt Nam và thế giới theo Chương trình GDPT 2018.</li>
+            <li>Phát triển năng lực tìm hiểu, đánh giá các sự kiện và nhân vật lịch sử.</li>
+            <li>Kết nối kiến thức lịch sử với các vấn đề đương đại và ý nghĩa thực tiễn.</li>
+            <li>Luyện tập các dạng câu hỏi trắc nghiệm khách quan vận dụng tư duy.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkDialy) {
+         console.log(`${item.email}: Có địa lý`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">🗺️</div>
+        <div class="course-title">Địa Lý: Phân Tích & Ứng Dụng Thực Tiễn</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Hệ thống kiến thức về Địa lí tự nhiên, dân cư, kinh tế Việt Nam và thế giới.</li>
+            <li>Rèn luyện kỹ năng đọc, phân tích bản đồ, Atlat và các loại biểu đồ, số liệu.</li>
+            <li>Vận dụng kiến thức để giải thích các hiện tượng tự nhiên, kinh tế, xã hội.</li>
+            <li>Chuẩn bị cho các dạng câu hỏi thực hành và lý thuyết gắn với thực tiễn.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkGiaoduckinhte) {
+         console.log(`${item.email}: Có Giáo Dục Kinh tế`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">⚖️</div>
+        <div class="course-title">GD Kinh tế & Pháp luật: Công Dân Tương Lai</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Nắm vững kiến thức cốt lõi về kinh tế và pháp luật theo Chương trình GDPT 2018.</li>
+            <li>Phát triển năng lực tư duy và vận dụng pháp luật vào các tình huống thực tiễn.</li>
+            <li>Rèn luyện kỹ năng nhận diện, phân tích và giải quyết các vấn đề kinh tế, pháp lý, đạo đức.</li>
+            <li>Làm quen với cấu trúc đề thi THPTQG 2026 mới: Trắc nghiệm đa lựa chọn và Trắc nghiệm Đúng/Sai.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkVatly) {
+         console.log(`${item.email}: Có Vật lý`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">💡</div>
+        <div class="course-title">Vật Lý: Năng Lực Giải Quyết Vấn Đề</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Tổng hợp và vận dụng linh hoạt các định luật, công thức vật lý.</li>
+            <li>Phát triển năng lực tư duy khoa học, phân tích và giải quyết các bài toán thực tiễn.</li>
+            <li>Thực hành các dạng bài tập định tính và định lượng, từ cơ bản đến nâng cao.</li>
+            <li>Tiếp cận các phương pháp thí nghiệm ảo, mô phỏng và ứng dụng vật lý trong đời sống.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+
+      if (checkHoahoc) {
+         console.log(`${item.email}: Có Hóa học`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">🧪</div>
+        <div class="course-title">Hóa Học: Tư Duy Hóa Học & Thực Nghiệm</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Hệ thống hóa kiến thức hóa học vô cơ và hữu cơ theo chuyên đề.</li>
+            <li>Rèn luyện năng lực phân tích, tính toán và giải quyết các bài toán hóa học phức tạp.</li>
+            <li>Vận dụng kiến thức để giải thích các hiện tượng, quá trình hóa học trong tự nhiên và đời sống.</li>
+            <li>Làm quen với các câu hỏi thực nghiệm, tư duy phản ứng và ứng dụng hóa học.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkSinhhoc) {
+         console.log(`${item.email}: Có Sinh Học`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">🧬</div>
+        <div class="course-title">Sinh Học: Hiểu Về Sự Sống & Ứng Dụng</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Nghiên cứu kiến thức về di truyền, tiến hóa, sinh thái và cơ thể sống theo chương trình mới.</li>
+            <li>Phát triển năng lực phân tích sơ đồ, hình ảnh và xử lý số liệu sinh học.</li>
+            <li>Vận dụng kiến thức để giải quyết các vấn đề thực tiễn liên quan đến sinh học.</li>
+            <li>Làm quen với các dạng câu hỏi tổng hợp, liên hệ và ứng dụng sinh học trong y học, nông nghiệp.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkTinhoc) {
+         console.log(`${item.email}: Có Tin học`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">💻</div>
+        <div class="course-title">Tin Học: Tư Duy Thuật Toán & Lập Trình</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Phát triển tư duy thuật toán, cấu trúc dữ liệu và giải quyết vấn đề bằng máy tính.</li>
+            <li>Thực hành lập trình cơ bản và nâng cao (ví dụ: Python, Pascal, C++) để giải quyết các bài toán thực tế.</li>
+            <li>Tìm hiểu về mạng máy tính, internet, an toàn thông tin và các ứng dụng AI cơ bản.</li>
+            <li>Luyện tập các dạng bài thi THPTQG 2026 chú trọng vào năng lực lập trình và tư duy logic.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+      if (checkCongnghe) {
+         console.log(`${item.email}: Có Công Nghệ`)
+        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    <div class="course-header">
+        <div class="course-icon">⚙️</div>
+        <div class="course-title">Công Nghệ: Thiết Kế & Ứng Dụng Thực Tiễn</div>
+    </div>
+    <div class="course-body">
+        <ul class="course-features">
+            <li>Hệ thống kiến thức Công nghệ theo định hướng Công nghiệp hoặc Nông nghiệp.</li>
+            <li>Phát triển năng lực thiết kế, đánh giá và giải quyết vấn đề kỹ thuật.</li>
+            <li>Phân tích các quy trình công nghệ, nguyên lý hoạt động của sản phẩm.</li>
+            <li>Vận dụng kiến thức để hiểu và tạo ra các sản phẩm công nghệ trong đời sống.</li>
+        </ul>
+        <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
+    </div>
+</div>`
+      }
+  
+      let dataMail = {
+        sendto: item.email,
+        name: item.name,
+        Subject: Subject,
+        TitleTaiLieu: TitleTaiLieu,
+        CacMonHocSinhCo: CacMonHocSinhCo,
+        download: download,
+      }
+      const data = await PostalSender(dataMail)
+     
+      console.log("Hãy Đợi 10 Giây Để Có Thể Gửi Tiếp")
+      for (let i = 10; i > 0; i--) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
+        console.log(`Chờ ${i} giây...`);
+      }
+      
+        console.log("------------------------------------------------------")
+
+
+
+    }
+    return res.json({ status: "Đã gửi hoàn tất" })
+
+
+ 
+
+
+})
+
 app.get('/api/test', (req, res) => {
+
+
+
 
   res.json({ message: "HELLO mới nhất" });
 });
+
+
+app.post("/api/ResetThong", async (req, res) => {
+  console.log("Bắt đầu")
+   const Data = await Thongbao.findOne({id: 562006})
+   return Data.text
+
+})
+
+
 
 
 

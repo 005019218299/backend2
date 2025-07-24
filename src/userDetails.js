@@ -283,6 +283,7 @@ const IpSchemma = new mongoose.Schema({
     totaltuan: Number,
     totalall: Number,
     totalthang: Number,
+    TotalEmail: Number,
      
     
 
@@ -300,6 +301,18 @@ const ToanSchema  = new mongoose.Schema({
    bot: Boolean,
 }, { 
      collection: "toan",
+})
+
+
+
+const SendTestSchema  = new mongoose.Schema({ 
+   name: String,
+   email: String,
+   monhoc: String,
+   click: Number,
+   bot: Boolean,
+}, { 
+     collection: "sendtest",
 })
 
 const NguVanSchema  = new mongoose.Schema({ 
@@ -468,3 +481,4 @@ export const Tinhoc = mongoose.model("tinhoc", TinHocSchema);
 export const Congnghe = mongoose.model("congnghe", CongNgheSchema);
 export const Hoahoc = mongoose.model("hoahoc", HoaHocSchema);
 export const Dataemail = mongoose.model("dataemail", DataEmailSchema);
+export const Sendtest = mongoose.model("sendtest", SendTestSchema);
