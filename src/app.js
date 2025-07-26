@@ -6,14 +6,14 @@ import bcrypt from 'bcryptjs';
 // import User from './userDetails.js'; 
 import jwt from 'jsonwebtoken';
 // import Taileu from './userDetails.js';
-import { Sendtest, Hoahoc, Dataemail, Toan, NguVan, Ngoaingu, Lichsu, Vatly, Sinhhoc, Dialy, Giaoduckinhtevaphapluat, Tinhoc, Congnghe, Feedback, User, Tailieu, Thongbao, Ip, Course, DanhMucCourse, VideosCourse, Category, Orders, PathCourse, Vocher } from './userDetails.js';
+import { Urlemail, Sendtest, Hoahoc, Dataemail, Toan, NguVan, Ngoaingu, Lichsu, Vatly, Sinhhoc, Dialy, Giaoduckinhtevaphapluat, Tinhoc, Congnghe, Feedback, User, Tailieu, Thongbao, Ip, Course, DanhMucCourse, VideosCourse, Category, Orders, PathCourse, Vocher } from './userDetails.js';
 const app = express();
 dotenv.config();
 import mongoSanitize from "express-mongo-sanitize";
 import axios from 'axios'
 import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
-
+import { v4 as uuidv4 } from 'uuid';
 import nodemailer from 'nodemailer';
 
 // BANK
@@ -33,7 +33,7 @@ const corsOptions = {
   optionsSuccessStatus: 204
 
 
-  
+
 };
 
 app.use(cors(corsOptions));
@@ -87,7 +87,7 @@ const PORT = process.env.PORT || 5000;
 
 // Route mặc định
 app.get("/", (req, res) => {
-  res.json({ message: "API is running v4" });
+  res.json({ message: "API is running v5" });
 });
 
 
@@ -141,6 +141,8 @@ app.post("/api/dangki", async (req, res) => {
         damua: [],
         hocthu: [],
         vocher: [],
+        nguoigioithieu: "",
+        nguoimoiduoc: []
 
       });
 
@@ -2295,20 +2297,39 @@ app.post('/api/send', async (req, res) => {
 
 
 app.post("/deleteMON", async (req, res) => {
-  const email = "khoahoctokyo1@gmail.com"
+  const data = [
+    { email: "hoangthitrang@gmail.com" },
+    { email: "thanhkhia1@gmal.com" },
+    { email: "tieubach2909@gamil.com" },
+    { email: "hoangthitrang290108@gmail.com" },
+    { email: "hyhahaok@gmail.com" },
+    { email: "thuymui0907@gmail.com" },
+    { email: "mt9433294@gmail.com" },
+    { email: "quelam666@hmail.com" },
+    { email: "Hoahox34343@gmail.com" },
+    { email: "vktaejudaicucm@gmail.com" },
+    { email: "nhu6102008@gmail.com" },
+    { email: "mt9433294@gmail.com" },
+    { email: "thanhkhia1@gmal.com" },
+    { email: "nottmadisonlol@gmail.com" },
+    { email: "phuonguyenpham2802@gmail.com" },
+
+  ]
   try {
-    await Hoahoc.deleteOne({ email: email })
-    await Toan.deleteOne({ email: email })
-    await NguVan.deleteOne({ email: email })
-    await Ngoaingu.deleteOne({ email: email })
-    await Vatly.deleteOne({ email: email })
-    await Toan.deleteOne({ email: email })
-    await Dataemail.deleteOne({ email: email })
-    await Hoahoc.deleteOne({ email: email })
-    await Dialy.deleteOne({ email: email })
-    await Lichsu.deleteOne({ email: email })
-    await Tinhoc.deleteOne({ email: email })
-    await Congnghe.deleteOne({ email: email })
+    for (const item of data) {
+      await Hoahoc.deleteOne({ email: data.email })
+      await Toan.deleteOne({ email: data.email })
+      await NguVan.deleteOne({ email: data.email })
+      await Ngoaingu.deleteOne({ email: data.email })
+      await Vatly.deleteOne({ email: data.email })
+      await Toan.deleteOne({ email: data.email })
+      await Dataemail.deleteOne({ email: data.email })
+      await Hoahoc.deleteOne({ email: data.email })
+      await Dialy.deleteOne({ email: data.email })
+      await Lichsu.deleteOne({ email: data.email })
+      await Tinhoc.deleteOne({ email: data.email })
+      await Congnghe.deleteOne({ email: data.email })
+    }
     return res.json({ status: "Success" })
   } catch (error) {
     return res.json({ status: "error", message: error })
@@ -2494,7 +2515,7 @@ app.post("/api/TaiLieu2k8Auto", async (req, res) => {
 
       }
       console.log(email)
-      const dataMail = { 
+      const dataMail = {
         sendto: email,
         name: name
       }
@@ -2517,7 +2538,7 @@ app.post("/api/TaiLieu2k8Auto", async (req, res) => {
           }
         }
       )
-      
+
       res.status(200).json({ status: "success", message: "Chúc bạn đăng kí thành công, thư sẽ sớm gửi tới bạn và muộn nhất là 24h sau" });
 
 
@@ -2537,7 +2558,7 @@ app.post("/api/TaiLieu2k8Auto", async (req, res) => {
 })
 
 
- 
+
 
 
 
@@ -2582,6 +2603,7 @@ app.post("/api/checkemailtailieu", async (req, res) => {
 
 
 import PostalSender from './Mail/Guitailieu.js'
+import QuangCaoWeb from './Mail/Quangcaoweb.js'
 import Postal from '@atech/postal';
 app.post("/api/send-postal", async (req, res) => {
   const {
@@ -2592,69 +2614,76 @@ app.post("/api/send-postal", async (req, res) => {
   } = req.body
   console.log("Bắt Đầu")
 
- 
 
 
-     let data = []
-    //  data = await Sendtest.find()
 
-     
+  let data = [
 
-    if(Monhoc === 'toan'){
-      data = await Toan.find()
+    { email: "abcgohan123mam@gmail.com", name: "Nguyen Van Anh", mon: "Toán" },
 
-    }
-    // if(Monhoc === 'nguvan'){ 
-    //   data = await NguVan.find()
+  ]
+  // data = await Dataemail.find()
 
-    // }
-    // if(Monhoc === 'ngoaingu'){ 
-    //    data = await Ngoaingu.find()
 
-    // }
-    // if(Monhoc === 'dialy'){ 
-    //   data = await Dialy.find()
-    // }
-    // if(Monhoc === 'lichsu'){ 
-    //    data = await Lichsu.find()
-    // }
-    // if(Monhoc === 'vatly'){ 
-    //  data = await Vatly.find()
-    // }
-    // if(Monhoc === 'hoahoc'){ 
-    //   data = await Hoahoc.find()
-    // }
-    // if(Monhoc === 'sinhhoc'){ 
-    //    data = await Sinhhoc.find()
-    // }
-    // if(Monhoc === 'giaoduckinhtevaphapluat'){ 
-    //   data = await Giaoduckinhtevaphapluat.find()
-    // }
-    // if(Monhoc === 'tinhoc'){ 
-    //    data = await Tinhoc.find()
-    // }
-    // if(Monhoc === 'congnghe'){ 
-    //    data = await Congnghe.find()
-    // }
-    console.log(data)
-   
 
-    for (const item of data) {
-      let CacMonHocSinhCo = ``
-      const checkToan = await Toan.findOne({ email: item.email })
-      const checkNguvan = await Ngoaingu.findOne({ email: item.email })
-      const checkNgoaingu = await Ngoaingu.findOne({ email: item.email })
-      const checkLichsu = await Lichsu.findOne({ email: item.email })
-      const checkDialy = await Dialy.findOne({ email: item.email })
-      const checkGiaoduckinhte = await Giaoduckinhtevaphapluat.findOne({ email: item.email })
-      const checkVatly = await Vatly.findOne({ email: item.email })
-      const checkHoahoc = await Hoahoc.findOne({ email: item.email })
-      const checkSinhhoc = await Sinhhoc.findOne({ email: item.email })
-      const checkTinhoc = await Tinhoc.findOne({ email: item.email })
-      const checkCongnghe = await Congnghe.findOne({ email: item.email })
-      if (checkToan) {
-        console.log(`${item.email}: Có Toán`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+  // if(Monhoc === 'toan'){
+  //   data = await Toan.find()
+
+  // }
+  // if(Monhoc === 'nguvan'){ 
+  //   data = await NguVan.find()
+
+  // }
+  // if(Monhoc === 'ngoaingu'){ 
+  //    data = await Ngoaingu.find()
+
+  // }
+  // if(Monhoc === 'dialy'){ 
+  //   data = await Dialy.find()
+  // }
+  // if(Monhoc === 'lichsu'){ 
+  //    data = await Lichsu.find()
+  // }
+  // if(Monhoc === 'vatly'){ 
+  //  data = await Vatly.find()
+  // }
+  // if(Monhoc === 'hoahoc'){ 
+  //   data = await Hoahoc.find()
+  // }
+  // if(Monhoc === 'sinhhoc'){ 
+  //    data = await Sinhhoc.find()
+  // }
+  // if(Monhoc === 'giaoduckinhtevaphapluat'){ 
+  //   data = await Giaoduckinhtevaphapluat.find()
+  // }
+  // if(Monhoc === 'tinhoc'){ 
+  //    data = await Tinhoc.find()
+  // }
+  // if(Monhoc === 'congnghe'){ 
+  //    data = await Congnghe.find()
+  // }
+  console.log(data)
+  let i = 1
+
+  for (const item of data) {
+    console.log("SST: ", i)
+    i = i + 1
+    let CacMonHocSinhCo = ``
+    let checkToan = await Toan.findOne({ email: item.email })
+    const checkNguvan = await Ngoaingu.findOne({ email: item.email })
+    const checkNgoaingu = await Ngoaingu.findOne({ email: item.email })
+    const checkLichsu = await Lichsu.findOne({ email: item.email })
+    const checkDialy = await Dialy.findOne({ email: item.email })
+    const checkGiaoduckinhte = await Giaoduckinhtevaphapluat.findOne({ email: item.email })
+    const checkVatly = await Vatly.findOne({ email: item.email })
+    const checkHoahoc = await Hoahoc.findOne({ email: item.email })
+    const checkSinhhoc = await Sinhhoc.findOne({ email: item.email })
+    const checkTinhoc = await Tinhoc.findOne({ email: item.email })
+    const checkCongnghe = await Congnghe.findOne({ email: item.email })
+
+    if (checkToan) {
+       
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">🧮</div>
         <div class="course-title">Toán Học: Phát Triển Năng Lực Tư Duy</div>
@@ -2669,10 +2698,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkNguvan) {
-         console.log(`${item.email}: Có Văn`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkNguvan) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">✍️</div>
         <div class="course-title">Ngữ Văn: Nâng Cao Năng Lực Đọc, Viết</div>
@@ -2687,11 +2716,11 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
+    }
 
-      if (checkNgoaingu) {
-         console.log(`${item.email}: Có Ngoại Ngữ`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    if (checkNgoaingu) {
+      
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">🗣️</div>
         <div class="course-title">Ngoại Ngữ (Tiếng Anh): Giao Tiếp & Vận Dụng</div>
@@ -2706,10 +2735,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkLichsu) {
-         console.log(`${item.email}: Có Lịch sử`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkLichsu) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">📜</div>
         <div class="course-title">Lịch Sử: Hiểu Sâu, Kết Nối Hiện Tại</div>
@@ -2724,10 +2753,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkDialy) {
-         console.log(`${item.email}: Có địa lý`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkDialy) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">🗺️</div>
         <div class="course-title">Địa Lý: Phân Tích & Ứng Dụng Thực Tiễn</div>
@@ -2742,10 +2771,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkGiaoduckinhte) {
-         console.log(`${item.email}: Có Giáo Dục Kinh tế`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkGiaoduckinhte) {
+       
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">⚖️</div>
         <div class="course-title">GD Kinh tế & Pháp luật: Công Dân Tương Lai</div>
@@ -2760,10 +2789,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkVatly) {
-         console.log(`${item.email}: Có Vật lý`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkVatly) {
+      
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">💡</div>
         <div class="course-title">Vật Lý: Năng Lực Giải Quyết Vấn Đề</div>
@@ -2778,11 +2807,11 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
+    }
 
-      if (checkHoahoc) {
-         console.log(`${item.email}: Có Hóa học`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    if (checkHoahoc) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">🧪</div>
         <div class="course-title">Hóa Học: Tư Duy Hóa Học & Thực Nghiệm</div>
@@ -2797,10 +2826,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkSinhhoc) {
-         console.log(`${item.email}: Có Sinh Học`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkSinhhoc) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">🧬</div>
         <div class="course-title">Sinh Học: Hiểu Về Sự Sống & Ứng Dụng</div>
@@ -2815,10 +2844,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkTinhoc) {
-         console.log(`${item.email}: Có Tin học`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkTinhoc) {
+ 
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">💻</div>
         <div class="course-title">Tin Học: Tư Duy Thuật Toán & Lập Trình</div>
@@ -2833,10 +2862,10 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-      if (checkCongnghe) {
-         console.log(`${item.email}: Có Công Nghệ`)
-        CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
+    }
+    if (checkCongnghe) {
+     
+      CacMonHocSinhCo = CacMonHocSinhCo + `<div class="course-card">
     <div class="course-header">
         <div class="course-icon">⚙️</div>
         <div class="course-title">Công Nghệ: Thiết Kế & Ứng Dụng Thực Tiễn</div>
@@ -2851,54 +2880,143 @@ app.post("/api/send-postal", async (req, res) => {
         <a href="https://onthithpt2026.com/home" class="course-link">ĐĂNG KÝ NGAY</a>
     </div>
 </div>`
-      }
-  
-      let dataMail = {
-        sendto: item.email,
-        name: item.name,
-        Subject: Subject,
-        TitleTaiLieu: TitleTaiLieu,
-        CacMonHocSinhCo: CacMonHocSinhCo,
-        download: download,
-      }
-      const data = await PostalSender(dataMail)
-     
-      console.log("Hãy Đợi 10 Giây Để Có Thể Gửi Tiếp")
-      for (let i = 10; i > 0; i--) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
-        console.log(`Chờ ${i} giây...`);
-      }
-      
-        console.log("------------------------------------------------------")
+    }
 
+    const uniqueId = uuidv4()
+    await Urlemail.create({
+      id: uniqueId,
+      email: item.email,
+      url: download,
+      click: 0
+    })
 
+    let dataMail = {
+      sendto: item.email,
+      name: item.name,
+      Subject: Subject,
+      TitleTaiLieu: TitleTaiLieu,
+      CacMonHocSinhCo: CacMonHocSinhCo,
+      download: uniqueId,
 
     }
-    return res.json({ status: "Đã gửi hoàn tất" })
 
 
- 
+    const data = await PostalSender(dataMail)
+    console.log(data)
+
+
+    console.log("Hãy Đợi 10 Giây Để Có Thể Gửi Tiếp")
+    for (let i = 10; i > 0; i--) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
+      console.log(`Chờ ${i} giây...`);
+    }
+
+    console.log("------------------------------------------------------")
+
+
+
+  }
+  return res.json({ status: "Đã gửi hoàn tất" })
+
+
+
 
 
 })
 
-app.get('/api/test', (req, res) => {
+app.post("/referralCode", async (req, res) => {
+  const { id } = req.params;
+  await User.updateOne(
+    { email: "" }
+  )
+
+  return res.json(id)
+
+
+})
 
 
 
+app.post("/tailieufree", async (req, res) => {
+  const { id } = req.body
+  const data = await Urlemail.findOne({ id: id })
+  if (data) {
+    await Urlemail.updateOne(
+      { id: id },
+      {
+        $set: {
+          click: data.click + 1
+        }
+      }
+    )
+    const dataIp = await Ip.findOne({ id: 1 })
+ 
+     
+      await Ip.updateOne(
+      { id: 1 },
+      {
+        $set: {
+          clickEmail: dataIp.clickEmail + 1
+        }
+      }
+    )
+    
 
-  res.json({ message: "HELLO mới nhất" });
-});
+
+    
+    return res.json({ status: "success", url: data.url })
+  } else {
+    return res.json({ status: "false" })
+  }
+
+
+
+  return res.json(uniqueId)
+
+  //   const data = await Sendtest.findOne({email: id})
+  //   if(data){
+  //     await Sendtest.updateOne(
+  //       {email: id}, 
+  //       {
+  //           $set: {
+  //             click: data.click + 1,
+  //           }
+  //         }
+  //     )
+  //   } else { 
+  //  await Sendtest.create({ 
+  //    name: 'String',
+  //    email: id,
+  //    monhoc: 'String',
+  //    click: 0,
+  //    bot: true,
+  //   })
+  //   }
+
+
+
+})
+
+
+
 
 
 app.post("/api/ResetThong", async (req, res) => {
   console.log("Bắt đầu")
-   const Data = await Thongbao.findOne({id: 562006})
-   return Data.text
+  const Data = await Thongbao.findOne({ id: 562006 })
+  return Data.text
 
 })
 
 
+
+
+
+app.post("/TaiLieu2k8Autoo", async (req, res) => {
+  const { referralCode } = req.params
+  console.log(referralCode)
+  res.json({ referralCode: referralCode })
+})
 
 
 

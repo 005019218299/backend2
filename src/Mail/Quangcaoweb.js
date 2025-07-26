@@ -1,17 +1,17 @@
 import Postal from '@atech/postal';
 
 
- async function PostalSender(dataMail) {
+ async function QuangCaoWeb(dataMail) {
 try {
   
 
-
+  console.log("Email Vào: ",dataMail.sendto)
   const client = new Postal.Client(`${process.env.URL_HOSTEMAIL}`, `${process.env.API_MAIL}`);
   const message = new Postal.SendMessage(client);
   message.to(`${dataMail.sendto}`);
   message.from(`${process.env.EMAIL_ROOT}`);
   message.subject(`${dataMail.Subject}`);
-  message.htmlBody(`<!DOCTYPE html>
+  message.htmlBody(` <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -533,7 +533,7 @@ try {
         <!-- Header -->
         <div class="header">
             <div class="logo">Smart AI </div>
-            <h1>TÀI LIỆU ĐỘC QUYỀN</h1>
+            <h1>SMART AI - CHINH PHỤC ĐIỂM CAO: HÀNH TRÌNH BỨT PHÁ KỲ THI THPT QUỐC GIA 2026!</h1>
             <p>Dành riêng cho khách hàng và học viên của chúng tôi</p>
             <p>Chú ý ! luôn để mặc định "tiếng anh" để email hiển thị các thông tin quan trọng, tránh thư hiển thị lỗi</p>
         </div>
@@ -541,22 +541,24 @@ try {
         <!-- Main Content -->
         <div class="content">
             <p class="salutation">Kính gửi ${dataMail.name},<br><br>
-            Chúng tôi rất vui mừng gửi đến bạn tài liệu đặc biệt được biên soạn bởi đội ngũ chuyên gia hàng đầu với hơn 10 năm kinh nghiệm trong lĩnh vực giáo dục trực tuyến. Đây là tài liệu độc quyền chỉ dành cho khách hàng thân thiết của Smart AI Guide.</p>
+             Kỳ thi THPT Quốc gia 2026 đang đến gần, và hơn ai hết, Smart AI thấu hiểu những áp lực, trăn trở của các bạn trên hành trình chinh phục mục tiêu. Đây không chỉ là một kỳ thi, mà là bước ngoặt quan trọng, mở ra cánh cửa tương lai tươi sáng.
+
+Chúng tôi tự hào giới thiệu chương trình đặc biệt được thiết kế để biến mọi thách thức thành cơ hội bứt phá cho các sĩ tử 2k8:</p>
             
             <div class="document-box">
-                <div class="exclusive-badge">NỘI DUNG ĐỘC QUYỀN</div>
-                <div class="document-title">${dataMail.TitleTaiLieu}</div>
+                <div class="exclusive-badge">ƯU ĐÃI ĐỘC QUYỀN 59.000đ/Môn</div>
+                <div class="document-title">HỌC PHÍ TỐI THIỂU - HIỆU QUẢ VƯỢT TRỘI!</div>
                 
-                <p class="document-description">Tài liệu này tổng hợp các từ chiến lược giảng dạy mới nhất năm 2026, cập nhật thông tin và ma trận đề thi thư của các sở trên tỉnh và các tài liệu tự biên tập từ đội ngữ. Đây là tài liệu không thể thiếu cho bất kỳ học sinh nào muốn nâng cao kiến thức và tư duy giải quyết các bài tập.</p>
+                <p class="document-description">Không còn lo lắng về chi phí lớn! Smart AI mang đến mức hỗ trợ chưa từng có: chỉ 59.000đ/môn học trọng điểm. Đây là cơ hội vàng để bạn tiếp cận ngay</p>
                 
                 <div class="features">
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span class="feature-text">Tài Liệu Độc Quyền Của Các Giáo Viên Uy Tín Trong Ngành</span>
+                        <span class="feature-text">Trọn bộ tài liệu ôn tập CHẤT LƯỢNG CAO, được biên soạn bởi đội ngũ giáo viên HÀNG ĐẦU với hơn 15 năm kinh nghiệm.</span>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span class="feature-text">Case study thành công từ các học sinh 2k7, 2k6...</span>
+                        <span class="feature-text">Hệ thống bài giảng chi tiết, dễ hiểu: Giúp bạn biến kiến thức phức tạp thành đơn giản, dễ tiếp thu, nắm vững mọi chuyên đề.</span>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
@@ -564,18 +566,34 @@ try {
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span class="feature-text">Cá nhân hóa theo từng học sinh </span>
+                        <span class="feature-text">HƠN 1.200 HỌC SINH ĐÃ TIN TƯỞNG & BỨT PHÁ ĐIỂM 9+ CÙNG SMART AI - VÌ SAO?</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span class="feature-text">Phương pháp học tập ĐỘT PHÁ & HIỆU QUẢ: Không chỉ học vẹt, Smart AI giúp bạn nắm vững bản chất vấn đề, phát triển tư duy phản biện để tự tin giải mọi dạng bài.</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span class="feature-text">HƠN 1.200 HỌC SINH ĐÃ TIN TƯỞNG & BỨT PHÁ ĐIỂM 9+ CÙNG SMART AI - VÌ SAO?</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span class="feature-text">Kiến thức trọng tâm, bám sát 100% cấu trúc đề thi MỚI NHẤT: Đảm bảo bạn đi đúng hướng, tối ưu thời gian ôn luyện và đạt hiệu quả cao nhất.</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <span class="feature-text">Tài liệu cập nhật LIÊN TỤC: Luôn đi trước một bước, nắm bắt mọi thay đổi trong cấu trúc đề thi, giúp bạn tự tin nắm chắc điểm số.</span>
                     </div>
                 </div>
                 
                 <div class="document-meta">
                     <div class="meta-item">
-                        <span>📄</span>
-                        <span>Định dạng: PDF</span>
+                        <span>🕒</span>
+                        <span>ĐÂY LÀ THỜI ĐIỂM VÀNG ĐỂ HÀNH ĐỘNG – ĐỪNG BỎ LỠ CƠ HỘI ĐỘC QUYỀN NÀY!</span>
                     </div>
                     <div class="meta-item">
-                        <span>🕒</span>
-                        <span>Thời hạn tải: 24 giờ</span>
+                        <span>🧠</span>
+                        <span>ĐỪNG CHẦN CHỪ! ĐĂNG KÝ NGAY HÔM NAY ĐỂ KHÔNG BỎ LỠ CƠ HỘI ĐỘT PHÁ ĐIỂM SỐ CỦA BẠN!</span>
                     </div>
                     <div class="meta-item">
                         <span>🔒</span>
@@ -585,21 +603,21 @@ try {
             </div>
             
             <div class="download-section">
-                <a href="http://localhost:3000/tailieufree/${dataMail.download}" class="download-btn">
+                <a href="https://onthithpt2026.com/" class="download-btn">
                     <span>📥</span>
-                    <span>TẢI TÀI LIỆU NGAY</span>
+                    <span>BẤM VÀO ĐÂY ĐỂ ĐĂNG KÝ KHÓA HỌC TẠI WEBSITE CHÍNH THỨC CỦA SMART AI</span>
                 </a>
-                <p class="download-note">(🔒 Mật khẩu tải file là: 2008 . Vui lòng không chia sẻ tài liệu này ra bên ngoài)</p>
+                <p class="download-note">Chương trình ưu đãi chỉ áp dụng DUY NHẤT từ 25/07 đến hết 30/07. SỐ LƯỢNG SUẤT HỌC CÓ GIỚI HẠN, Smart AI sẽ ưu tiên các bạn đăng ký sớm nhất để đảm bảo chất lượng hỗ trợ tốt nhất cho từng học sinh</p>
             </div>
         </div>
         
         <!-- Courses Section -->
         <div class="courses-section">
-            <h2 class="section-title">KHÓA HỌC ĐỀ XUẤT</h2>
+            <h2 class="section-title">Chúc ${dataMail.name} Một Buổi Tối Vui Vẻ</h2>
             
             <div class="courses-grid">
                 <!-- Course 1 -->
-                 ${dataMail.CacMonHocSinhCo}
+                 
             </div>
         </div>
         
@@ -633,7 +651,7 @@ try {
         </div>
     </div>
 </body>
-</html> `);
+</html>  `);
   message.header('X-PHP-Test', 'value');
   message.send()
     .then((result) => {
@@ -641,19 +659,19 @@ try {
       for (const email in recipients) {
         const msg = recipients[email];
         console.log("Status success: ", msg )
-        return { status: "success", Token: msg, Data: email }
+        return msg
       }
     })
     .catch((error) => {
       // Handle errors
       console.log ("status error 1: ",error )
-      return { status: "error", CodeError: error }
+      return error
     });
 } catch (error) {
     console.log ("status error 2: ",error )
-  return {status: "error", message: error}
+  return error
 }
 }
 
 
-export default PostalSender; 
+export default QuangCaoWeb; 

@@ -15,6 +15,17 @@ const OndersDetailsSchema = new mongoose.Schema({
     collection: "Oders",
  
 });
+const NguoimoiduocSchema = new mongoose.Schema({
+    email: { 
+        type: String
+    }
+
+},{
+    collection: "nguoimoiduoc",
+ 
+})
+
+
  
 
 const UserDetailsSchema = new mongoose.Schema({
@@ -27,6 +38,15 @@ const UserDetailsSchema = new mongoose.Schema({
         unique: true,
         match: [/^[a-zA-Z0-9]+$/, "Tên đăng nhập chỉ được chứa chữ cái và số"] // Chống NoSQL Injection
     },
+
+    nguoigioithieu: { 
+        type: String,
+    },
+    nguoimoiduoc: { 
+        type: [NguoimoiduocSchema] //email
+    },
+    
+
     password: {
         type: String,
         required: true,
@@ -284,6 +304,7 @@ const IpSchemma = new mongoose.Schema({
     totalall: Number,
     totalthang: Number,
     TotalEmail: Number,
+    clickEmail: Number
      
     
 
@@ -445,6 +466,16 @@ const DataEmailSchema  = new mongoose.Schema({
 })
 
 
+const UrlEmailSchema = new mongoose.Schema({
+    id: String,
+    email: String, 
+    url: String,
+    click: Number
+}, { 
+     collection: "urlemail",
+})
+
+
 
 
 
@@ -482,3 +513,4 @@ export const Congnghe = mongoose.model("congnghe", CongNgheSchema);
 export const Hoahoc = mongoose.model("hoahoc", HoaHocSchema);
 export const Dataemail = mongoose.model("dataemail", DataEmailSchema);
 export const Sendtest = mongoose.model("sendtest", SendTestSchema);
+export const Urlemail = mongoose.model("urlemail", UrlEmailSchema);
